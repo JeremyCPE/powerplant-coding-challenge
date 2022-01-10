@@ -7,15 +7,15 @@ namespace CodingChallengeWeb.Models
     {
         [JsonPropertyName("gas(euro/MWh)")]
         [Required]
-        public double? gas { get; set; }
+        public double gas { get; set; }
         [JsonPropertyName("kerosine(euro/MWh)")]
         [Required]
-        public double? kerosine { get; set; }
+        public double kerosine { get; set; }
         [JsonPropertyName("co2(euro/ton)")]
         public double co2 { get; set; }
         [JsonPropertyName("wind(%)")]
         [Required]
-        public int? wind { get; set; }
+        public int wind { get; set; }
 
     }
 }

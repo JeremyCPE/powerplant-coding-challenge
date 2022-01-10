@@ -9,7 +9,7 @@ namespace CodingChallengeWeb.Models
         [Required]
         public string? type { get; set; }
         [Required]
-        public double? efficiency { get; set; }
+        public double efficiency { get; set; }
         public int pmin { get; set; }
         [Required]
         public int pmax { get; set; }

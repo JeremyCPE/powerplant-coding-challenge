@@ -7,10 +7,18 @@ namespace CodingChallengeWeb.Services
     {
         public static List<Response> Calculate(Playload playload)
         {
-            double? load = playload.load.GetValueOrDefault();
-            if(load < 0 || load == null)
+            double? load = playload.load;
+            if(load < 0)
             {
                 throw new ArgumentException("load undefined or inferior at 0", nameof(playload.load));
+            }
+            if (playload.powerplants == null)
+            {
+                throw new ArgumentException("powerplants undefined", nameof(playload.powerplants));
+            }
+            if (playload.fuels == null)
+            {
+                throw new ArgumentException("fuels undefined", nameof(playload.fuels));
             }
 
             List<Response> response = new List<Response>();
@@ -23,10 +31,10 @@ namespace CodingChallengeWeb.Services
                         powerplant.cost = 0;
                         break;
                     case "gasfired":
-                        powerplant.cost = powerplant.efficiency > 0 ? Math.Round(playload.fuels.gas.Value / powerplant.efficiency.Value,1) : 0;
+                        powerplant.cost = powerplant.efficiency > 0 ? Math.Round(playload.fuels.gas / powerplant.efficiency,1) : 0;
                         break;
                     case "turbojet":
-                        powerplant.cost = powerplant.efficiency > 0 ? Math.Round(playload.fuels.kerosine.Value / powerplant.efficiency.Value,1) : 0;
+                        powerplant.cost = powerplant.efficiency > 0 ? Math.Round(playload.fuels.kerosine / powerplant.efficiency,1) : 0;
                         break;
                     default:
                         throw new ArgumentException($"type {powerplant.type} undefined or unknown", nameof(powerplant.type));
@@ -38,7 +46,7 @@ namespace CodingChallengeWeb.Services
             // Set minimum foreach powerplant
             foreach (var powerplant in powerplants)
             {
-                response.Add(new(powerplant.name, powerplant.pmin));
+                response.Add(new(powerplant.name ?? "", powerplant.pmin));
             }
             
             // Determine power foreach powerplant (sorted by efficiency then by cost)
